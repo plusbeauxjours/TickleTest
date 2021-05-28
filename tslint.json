@@ -1,0 +1,25 @@
+{
+    "extends": [
+      "tslint:recommended",
+      "tslint-config-standard",
+      "tslint-etc",
+      "tslint-react",
+      "tslint-react-hooks",
+      "tslint-config-prettier"
+    ],
+    "rules": {
+        "no-var": "error",
+        "prefer-const": "warn",
+        "max-params": ["warn", 4],
+        "comma-dangle": ["off", "always-multiline"],
+        "react-native/no-inline-styles": "off",
+        "prettier/prettier": ["error",{"endOfLine": "auto"}],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "graphql/template-strings": [
+          "error",
+          { "env": "apollo", "schemaJsonFilepath": "./schema/schema.json" }
+        ]
+    },
+    "jsRules": true
+  }
