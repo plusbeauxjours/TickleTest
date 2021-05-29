@@ -9,6 +9,10 @@ import UPDATE_OPTION from '../../mutations/updateOption';
 const RootScreenContainer = () => {
     const [multiple, setMultiple] = useState<number>(null);
     const [recurring, setRecurring] = useState<number>(null);
+    const [multipleValue, setMultipleValue] = useState<number>(1);
+    const [price, setPrice] = useState<number>(null);
+    const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
+    const [isStoped, setIsStoped] = useState<boolean>(false);
 
     const [getOptionFn, { data: getOptionData, loading: getOptionLoading }] = useLazyQuery(GET_OPTION, {
         onError: (e) => console.log(e),
@@ -25,7 +29,18 @@ const RootScreenContainer = () => {
         getOptionFn();
     }, []);
 
-    return <RootScreenPresenter />;
+    return (
+        <RootScreenPresenter
+            multipleValue={multipleValue}
+            setMultipleValue={setMultipleValue}
+            price={price}
+            isSubscribed={isSubscribed}
+            setPrice={setPrice}
+            setIsSubscribed={setIsSubscribed}
+            isStoped={isStoped}
+            setIsStoped={setIsStoped}
+        />
+    );
 };
 
 export default RootScreenContainer;
