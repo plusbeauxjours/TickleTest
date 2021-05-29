@@ -1,6 +1,8 @@
 import React from 'react';
-import { Alert } from 'react-native';
+import { Alert, Switch } from 'react-native';
 import styled from 'styled-components/native';
+
+import InformationBtn from './InformationBtn';
 
 import { GrayText, Text, Container, Row } from '../styles/sharedStyles';
 import colors from '../styles/sharedColors';
@@ -33,8 +35,9 @@ const MultipleOption: React.FC<IProps> = ({ multipleValue, setMultipleValue }) =
     return (
         <Container>
             <Touchable onPress={() => onPress(1)}>
-                <Row>
+                <Row style={{ justifyContent: 'flex-start' }}>
                     <Text>티클 곱하기</Text>
+                    <InformationBtn />
                 </Row>
             </Touchable>
             <GrayText>티클 곱하기를 이용해 티클을 모으는 속도를 조절합니다.</GrayText>

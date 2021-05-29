@@ -4,6 +4,9 @@ import styled from 'styled-components/native';
 import { Title } from '../styles/sharedStyles';
 
 const Container = styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     height: 40px;
     padding: 0 20px;
 `;
