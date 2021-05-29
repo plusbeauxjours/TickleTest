@@ -1,9 +1,9 @@
 import React from 'react'
 import {View, Text} from 'react-native'
 
-const ScreenPresenter=()=>{
+const RootScreenPresenter = () => {
     return <View><Text>Tickle</Text></View>
     
 }
 
-export default ScreenPresenter
+export default RootScreenPresenter
