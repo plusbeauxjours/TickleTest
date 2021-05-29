@@ -1,21 +1,31 @@
-import React, {useEffect} from 'react'
-import {  useLazyQuery, useQuery } from '@apollo/client'
-import GET_OPTION from '../../queries/getOption'
-import RootScreenPresenter from './RootScreenPresenter'
+import React, { useEffect, useState } from 'react';
+import { useLazyQuery, useMutation } from '@apollo/client';
 
-const RootScreenContainer = ()=>{
-    const [getOptionFn, {data: getOptionData, loading: getOptionLoading }] = useLazyQuery(GET_OPTION, {
-        onError:(e)=>console.log(e),
-        onCompleted:(res)=>console.log(res)
-    })
+import RootScreenPresenter from './RootScreenPresenter';
 
-    const [updateOptionFn, {data: updateOptionData, loading: updateOptionLoading}] = 
-    useEffect(()=>{
-        getOptionFn()
-        console.log('joi')
-    },[])
+import GET_OPTION from '../../queries/getOption';
+import UPDATE_OPTION from '../../mutations/updateOption';
 
-    return <RootScreenPresenter/>
-}
+const RootScreenContainer = () => {
+    const [multiple, setMultiple] = useState<number>(null);
+    const [recurring, setRecurring] = useState<number>(null);
 
-export default RootScreenContainer
+    const [getOptionFn, { data: getOptionData, loading: getOptionLoading }] = useLazyQuery(GET_OPTION, {
+        onError: (e) => console.log(e),
+
+        onCompleted: (res) => console.log(res),
+    });
+
+    const [updateOptionFn, { data: updateOptionData, loading: updateOptionLoading }] = useMutation(UPDATE_OPTION, {
+        variables: { multiple, recurring },
+        onCompleted: (res) => console.log(res),
+    });
+
+    useEffect(() => {
+        getOptionFn();
+    }, []);
+
+    return <RootScreenPresenter />;
+};
+
+export default RootScreenContainer;

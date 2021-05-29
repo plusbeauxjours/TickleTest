@@ -1,2 +1,2 @@
-import RootScreenContainer from './RootScreenContainer'
-export default RootScreenContainer
+import RootScreenContainer from './RootScreenContainer';
+export default RootScreenContainer;
