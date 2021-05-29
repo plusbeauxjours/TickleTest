@@ -1,6 +1,7 @@
-import React from 'react';
-import { Alert, Switch } from 'react-native';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
+
+import ModalConfirm from './ModalConfirm';
 
 import { GrayText, Text, Container, Row } from '../styles/sharedStyles';
 import colors from '../styles/sharedColors';
@@ -13,42 +14,50 @@ interface IProps {
 const Touchable = styled.TouchableOpacity``;
 
 const StopOption: React.FC<IProps> = ({ isStoped, setIsStoped }) => {
-    const onPress = () => {
-        const alertTitle = '티클 일시중지';
-        const alertText = isStoped
-            ? '티클 일시중지가 해제되었습니다.'
-            : '이제부터 티클 모으기를 일시중지합니다. 계속하시겠습니까?';
-        const alertBtn = isStoped
-            ? [
-                  {
-                      text: '확인',
-                      onPress: () => setIsStoped(false),
-                  },
-              ]
-            : [
-                  {
-                      text: '취소',
-                      style: 'cancel',
-                      onPress: () => console.log('cancel'),
-                  },
-                  {
-                      text: '확인',
-                      onPress: () => setIsStoped(true),
-                  },
-              ];
-        Alert.alert(alertTitle, alertText, alertBtn);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+    const alertTitle = '티클 일시중지';
+    const alertText = isStoped
+        ? '티클 일시중지가 해제되었습니다.'
+        : '이제부터 티클 모으기를\n일시중지합니다. 계속하시겠습니까?';
+
+    const onOpen = () => setIsModalOpen(true);
+    const onCancel = () => setIsModalOpen(false);
+    const onOk = () => {
+        try {
+            setIsStoped(true);
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setIsModalOpen(false);
+        }
+    };
+    const onClose = () => {
+        setIsStoped(false);
+        setIsModalOpen(false);
     };
 
     return (
-        <Container style={{ borderBottomWidth: 0 }}>
-            <Touchable onPress={onPress}>
+        <React.Fragment>
+            <Container style={{ borderBottomWidth: 0 }}>
                 <Row>
                     <Text>티클 일시중지</Text>
-                    <Switch />
+                    <Touchable onPress={onOpen}>
+                        <Text>테스트</Text>
+                    </Touchable>
                 </Row>
-            </Touchable>
-            <GrayText>일시적으로 티클 모으기를 중지합니다.</GrayText>
-        </Container>
+                <GrayText>일시적으로 티클 모으기를 중지합니다.</GrayText>
+            </Container>
+            <ModalConfirm
+                alertTitle={alertTitle}
+                alertText={alertText}
+                isModalOpen={isModalOpen}
+                onCancel={onCancel}
+                onOk={onOk}
+                onClose={onClose}
+                hasCancelBtn={!isStoped}
+            />
+        </React.Fragment>
     );
 };
 
