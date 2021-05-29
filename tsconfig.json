@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": "./src",
-    "paths": {
-      "~/*": ["*"]
-    },
     "rootDir": ".",
     /* Additional Options 0315*/
     "noImplicitReturns": false,
