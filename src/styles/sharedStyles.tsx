@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import colors from '../styles/sharedColors';
 
 const Container = styled.View`
-    height: 200px;
+    min-height: 200px;
     border-bottom-width: 0.5px;
     border-color: ${colors.borderColor};
     padding: 20px;

@@ -7,8 +7,8 @@ import SubscribeOption from '../../components/SubscribeOption';
 import StopOption from '../../components/StopOption';
 
 interface IProps {
-    multipleValue: number;
-    setMultipleValue: (value: number) => void;
+    multipleIndex: number;
+    setMultipleIndex: (multipleIndex: number) => void;
     price: number;
     isSubscribed: boolean;
     setPrice: (price: number) => void;
@@ -19,8 +19,8 @@ interface IProps {
 
 const SafeAreaView = styled.SafeAreaView``;
 const RootScreenPresenter: React.FC<IProps> = ({
-    multipleValue,
-    setMultipleValue,
+    multipleIndex,
+    setMultipleIndex,
     price,
     isSubscribed,
     setPrice,
@@ -32,7 +32,7 @@ const RootScreenPresenter: React.FC<IProps> = ({
         <React.Fragment>
             <SafeAreaView>
                 <Header />
-                <MultipleOption multipleValue={multipleValue} setMultipleValue={setMultipleValue} />
+                <MultipleOption multipleIndex={multipleIndex} setMultipleIndex={setMultipleIndex} />
                 <SubscribeOption
                     price={price}
                     isSubscribed={isSubscribed}

@@ -5,13 +5,14 @@ import InformationBtn from './InformationBtn';
 import ModalConfirm from './ModalConfirm';
 
 import { GrayText, Text, Container, Row } from '../styles/sharedStyles';
-import { MODAL_WIDTH } from '../styles/variables';
+import { MULTIPLE_ARRAY } from '../styles/variables';
 import colors from '../styles/sharedColors';
 import ModalAlert from './ModalAlert';
+import MultipleBar from './MultipleBar';
 
 interface IProps {
-    multipleValue: number;
-    setMultipleValue: (multipleValue: number) => void;
+    multipleIndex: number;
+    setMultipleIndex: (multipleIndex: number) => void;
 }
 
 const Touchable = styled.TouchableOpacity``;
@@ -34,14 +35,17 @@ const PrimaryColorText = styled(Bold)`
     color: ${colors.primaryColor};
 `;
 
-const MultipleOption: React.FC<IProps> = ({ multipleValue, setMultipleValue }) => {
+const MultipleOption: React.FC<IProps> = ({ multipleIndex, setMultipleIndex }) => {
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
     const [isAlertModalOpen, setIsAlertModalOpen] = useState<boolean>(false);
 
     const confirmTitle = '티클 곱하기';
-    const confirmText = `이제부터 티클이 ${multipleValue}배씩 모입니다.\n빠르게 티클을 모아보세요!`;
+    const confirmText = `이제부터 티클이 ${MULTIPLE_ARRAY[multipleIndex]}배씩 모입니다.\n빠르게 티클을 모아보세요!`;
 
-    const onConfirmOpen = () => setIsConfirmModalOpen(true);
+    const onConfirmOpen = (index: number) => {
+        setIsConfirmModalOpen(true);
+        setMultipleIndex(index);
+    };
     const onConfirmCancel = () => setIsConfirmModalOpen(false);
     const onConfirmOk = () => {
         try {
@@ -86,10 +90,8 @@ const MultipleOption: React.FC<IProps> = ({ multipleValue, setMultipleValue }) =
                     <Touchable onPress={onAlertOpen}>
                         <InformationBtn />
                     </Touchable>
-                    <Touchable onPress={onConfirmOpen}>
-                        <Text>price 테스트</Text>
-                    </Touchable>
                 </Row>
+                <MultipleBar onConfirmOpen={onConfirmOpen} multipleIndex={multipleIndex} />
                 <GrayText>티클 곱하기를 이용해 티클을 모으는 속도를 조절합니다.</GrayText>
                 <GrayText>설정한 이후 발생한 카드 사용 내역부터 적용됩니다.</GrayText>
             </Container>

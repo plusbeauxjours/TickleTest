@@ -5,13 +5,13 @@ import RootScreenPresenter from './RootScreenPresenter';
 
 import GET_OPTION from '../../queries/getOption';
 import UPDATE_OPTION from '../../mutations/updateOption';
+import { MULTIPLE_ARRAY } from '../../styles/variables';
 
 const RootScreenContainer = () => {
-    const [multiple, setMultiple] = useState<number>(null);
+    const [multipleIndex, setMultipleIndex] = useState<number>(0);
     const [recurring, setRecurring] = useState<number>(null);
-    const [multipleValue, setMultipleValue] = useState<number>(1);
-    const [priceIndex, setPriceIndex] = useState<number>(0); // 0: 5,000 , 1: 10,000 , 2: 15,000 , 3: 직접입력
     const [price, setPrice] = useState<number>(null);
+    const [priceIndex, setPriceIndex] = useState<number>(0); // 0: 5,000 , 1: 10,000 , 2: 15,000 , 3: 직접입력
     const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
     const [isStoped, setIsStoped] = useState<boolean>(false);
 
@@ -22,7 +22,7 @@ const RootScreenContainer = () => {
     });
 
     const [updateOptionFn, { data: updateOptionData, loading: updateOptionLoading }] = useMutation(UPDATE_OPTION, {
-        variables: { multiple, recurring },
+        variables: { multiple: MULTIPLE_ARRAY[multipleIndex], recurring },
         onCompleted: (res) => console.log(res),
     });
 
@@ -32,8 +32,8 @@ const RootScreenContainer = () => {
 
     return (
         <RootScreenPresenter
-            multipleValue={multipleValue}
-            setMultipleValue={setMultipleValue}
+            multipleIndex={multipleIndex}
+            setMultipleIndex={setMultipleIndex}
             price={price}
             setPrice={setPrice}
             isSubscribed={isSubscribed}
