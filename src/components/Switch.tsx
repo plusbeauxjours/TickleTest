@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { Animated, Easing } from 'react-native';
 import styled from 'styled-components/native';
+
 import colors from '../styles/sharedColors';
 
 interface IProps {
@@ -23,16 +25,25 @@ const Track = styled.View<IProps>`
     border-radius: ${(TRACK_WIDTH * 0.6) / 2}px;
     background-color: ${(props) => (props.isOn ? colors.primaryColor : colors.trackColor)};
     justify-content: center;
-    align-items: ${(props) => (props.isOn ? 'flex-end' : 'flex-start')};
     padding: ${PADDING}px;
 `;
 const Touchable = styled.TouchableOpacity``;
 
 const Switch: React.FC<IProps> = ({ isOn, onOpen }) => {
+    const translation = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.timing(translation, {
+            toValue: isOn ? 0 : 20,
+            duration: 200,
+            useNativeDriver: true,
+        }).start();
+    }, [isOn]);
+
     return (
         <Touchable activeOpacity={1} onPress={onOpen}>
             <Track isOn={isOn} activeOpacity>
-                <Thumb />
+                <Thumb as={Animated.View} style={{ transform: [{ translateX: translation }] }} />
             </Track>
         </Touchable>
     );

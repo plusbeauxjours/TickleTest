@@ -1,5 +1,5 @@
-import React from 'react';
-import { Dimensions, View } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { Dimensions, Animated, Easing } from 'react-native';
 import styled from 'styled-components/native';
 
 import { GrayText } from '../styles/sharedStyles';
@@ -71,12 +71,22 @@ const Thumb = styled.View<IStyle>`
     border-radius: ${THUMB_SIZE / 2}px;
     background-color: ${colors.primaryColor};
     top: -9px;
-    left: ${(props) => (BAR_WIDTH / MULTIPLE_LAST_INDEX) * props.index}px;
     box-shadow: 2px 2px 2px rgba(100, 100, 100, 0.5);
     elevation: 2;
 `;
 
 const MultipleBar: React.FC<IProps> = ({ onConfirmOpen, multipleIndex }) => {
+    const translation = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.timing(translation, {
+            toValue: (BAR_WIDTH / MULTIPLE_LAST_INDEX) * multipleIndex,
+            duration: 200,
+            useNativeDriver: true,
+            easing: Easing.ease,
+        }).start();
+    }, [multipleIndex]);
+
     return (
         <MultipleBarContainer>
             <HorizontalLine />
@@ -84,6 +94,7 @@ const MultipleBar: React.FC<IProps> = ({ onConfirmOpen, multipleIndex }) => {
                 {MULTIPLE_ARRAY.map((_, index) => (
                     <VerticalTextContainer
                         key={index}
+                        disabled={index === multipleIndex}
                         onPress={() => onConfirmOpen(index)}
                         index={index}
                         activeOpacity={1}>
@@ -92,7 +103,7 @@ const MultipleBar: React.FC<IProps> = ({ onConfirmOpen, multipleIndex }) => {
                     </VerticalTextContainer>
                 ))}
             </BarContainer>
-            <Thumb index={multipleIndex} />
+            <Thumb as={Animated.View} index={multipleIndex} style={{ transform: [{ translateX: translation }] }} />
         </MultipleBarContainer>
     );
 };
