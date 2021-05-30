@@ -10,7 +10,7 @@ interface IProps {
     setIsStoped: (isStoped: boolean) => void;
 }
 
-const StopOption: React.FC<IProps> = ({ isStoped, setIsStoped }) => {
+const StopOption = React.memo<IProps>(({ isStoped, setIsStoped }) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const alertTitle = '티클 일시중지';
@@ -54,6 +54,6 @@ const StopOption: React.FC<IProps> = ({ isStoped, setIsStoped }) => {
             />
         </React.Fragment>
     );
-};
+});
 
 export default StopOption;

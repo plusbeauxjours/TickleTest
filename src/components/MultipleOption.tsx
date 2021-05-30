@@ -35,9 +35,9 @@ const PrimaryColorText = styled(Bold)`
     color: ${colors.primaryColor};
 `;
 
-const MultipleOption: React.FC<IProps> = ({ multipleIndex, setMultipleIndex }) => {
-    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
-    const [isAlertModalOpen, setIsAlertModalOpen] = useState<boolean>(false);
+const MultipleOption = React.memo<IProps>(({ multipleIndex, setMultipleIndex }) => {
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false); // 티클곱하기 확인을 위한 modal
+    const [isAlertModalOpen, setIsAlertModalOpen] = useState<boolean>(false); // 티클곱하기 information을 위한 modal
     const [tempIndex, setTempIndex] = useState<number>(0); // alert에 표기를 위한 index
 
     const confirmTitle = '티클 곱하기';
@@ -115,6 +115,6 @@ const MultipleOption: React.FC<IProps> = ({ multipleIndex, setMultipleIndex }) =
             </ModalAlert>
         </React.Fragment>
     );
-};
+});
 
 export default MultipleOption;

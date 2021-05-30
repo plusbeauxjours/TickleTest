@@ -77,52 +77,46 @@ const BtnText = styled.Text`
     color: ${colors.primaryColor};
 `;
 
-const ModalConfirm: React.FC<IProps> = ({
-    alertTitle,
-    alertText,
-    isModalOpen,
-    onCancel,
-    onOk,
-    onClose,
-    hasCancelBtn = true,
-}) => {
-    return (
-        <Modal transparent visible={isModalOpen}>
-            <Background>
-                <ModalBox>
-                    <ModalTextBox>
-                        <Title>{alertTitle}</Title>
-                        <Text>{alertText}</Text>
-                    </ModalTextBox>
-                    {hasCancelBtn ? (
-                        <BtnContainer>
-                            <Touchable
-                                style={{ borderBottomLeftRadius: 10, borderRightWidth: 0.5 }}
-                                hasCancelBtn={hasCancelBtn}
-                                onPress={onCancel}>
-                                <BtnText style={{ color: colors.grayTextColor }}>취소</BtnText>
-                            </Touchable>
-                            <Touchable
-                                style={{ borderBottomRightRadius: 10 }}
-                                hasCancelBtn={hasCancelBtn}
-                                onPress={onOk}>
-                                <BtnText>확인</BtnText>
-                            </Touchable>
-                        </BtnContainer>
-                    ) : (
-                        <BtnContainer>
-                            <Touchable
-                                style={{ borderBottomRightRadius: 10, borderBottomLeftRadius: 20 }}
-                                hasCancelBtn={hasCancelBtn}
-                                onPress={onClose}>
-                                <BtnText>확인</BtnText>
-                            </Touchable>
-                        </BtnContainer>
-                    )}
-                </ModalBox>
-            </Background>
-        </Modal>
-    );
-};
+const ModalConfirm = React.memo<IProps>(
+    ({ alertTitle, alertText, isModalOpen, onCancel, onOk, onClose, hasCancelBtn = true }) => {
+        return (
+            <Modal transparent visible={isModalOpen}>
+                <Background>
+                    <ModalBox>
+                        <ModalTextBox>
+                            <Title>{alertTitle}</Title>
+                            <Text>{alertText}</Text>
+                        </ModalTextBox>
+                        {hasCancelBtn ? (
+                            <BtnContainer>
+                                <Touchable
+                                    style={{ borderBottomLeftRadius: 10, borderRightWidth: 0.5 }}
+                                    hasCancelBtn={hasCancelBtn}
+                                    onPress={onCancel}>
+                                    <BtnText style={{ color: colors.grayTextColor }}>취소</BtnText>
+                                </Touchable>
+                                <Touchable
+                                    style={{ borderBottomRightRadius: 10 }}
+                                    hasCancelBtn={hasCancelBtn}
+                                    onPress={onOk}>
+                                    <BtnText>확인</BtnText>
+                                </Touchable>
+                            </BtnContainer>
+                        ) : (
+                            <BtnContainer>
+                                <Touchable
+                                    style={{ borderBottomRightRadius: 10, borderBottomLeftRadius: 20 }}
+                                    hasCancelBtn={hasCancelBtn}
+                                    onPress={onClose}>
+                                    <BtnText>확인</BtnText>
+                                </Touchable>
+                            </BtnContainer>
+                        )}
+                    </ModalBox>
+                </Background>
+            </Modal>
+        );
+    },
+);
 
 export default ModalConfirm;
