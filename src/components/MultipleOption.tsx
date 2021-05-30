@@ -77,6 +77,7 @@ const MultipleOption: React.FC<IProps> = ({ multipleValue, setMultipleValue }) =
             </ModalRow>
         </>
     );
+
     return (
         <React.Fragment>
             <Container>

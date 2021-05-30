@@ -5,6 +5,7 @@ import ModalConfirm from './ModalConfirm';
 
 import { GrayText, Text, Container, Row } from '../styles/sharedStyles';
 import colors from '../styles/sharedColors';
+import Switch from './Switch';
 
 interface IProps {
     price: number;
@@ -13,9 +14,27 @@ interface IProps {
     setIsSubscribed: (isSubscribed: boolean) => void;
 }
 
-const Touchable = styled.TouchableOpacity``;
+interface IStyle {
+    isEmpty: boolean;
+}
 
-const SubscribeOption: React.FC<IProps> = ({ price, isSubscribed, setPrice, setIsSubscribed }) => {
+const Touchable = styled.TouchableOpacity``;
+const TextInput = styled.TextInput`
+    padding: 10px 0;
+`;
+const TextInputLine = styled.View<IStyle>`
+    height: 0.5px;
+    background-color: ${(props) => (props.isEmpty ? colors.borderColor : colors.primaryColor)};
+`;
+
+const SubscribeOption: React.FC<IProps> = ({
+    price,
+    setPrice,
+    priceIndex,
+    setPriceIndex,
+    isSubscribed,
+    setIsSubscribed,
+}) => {
     const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState<boolean>(false);
     const [isPriceModalOpen, setIsPriceModalOpen] = useState<boolean>(false);
     const [isPriceConfirmed, setIsPriceConfirmed] = useState<boolean>(true);
@@ -66,13 +85,17 @@ const SubscribeOption: React.FC<IProps> = ({ price, isSubscribed, setPrice, setI
             <Container>
                 <Row>
                     <Text>정기 티클</Text>
-                    <Touchable onPress={onSubscribeOpen}>
-                        <Text>subscribe 테스트</Text>
-                    </Touchable>
+                    <Switch isOn={isSubscribed} onOpen={onSubscribeOpen} />
                     <Touchable onPress={onPriceOpen}>
                         <Text>price 테스트</Text>
                     </Touchable>
                 </Row>
+                {priceIndex === 3 && ( // 3: 집적입력
+                    <Row>
+                        <TextInput />
+                        <TextInputLine isEmpty={!price} />
+                    </Row>
+                )}
                 <GrayText>모인 티클에 더해서 매주 추가 금액을 저축합니다.</GrayText>
             </Container>
             <ModalConfirm

@@ -24,7 +24,7 @@ const Text = styled.Text`
 `;
 
 const GrayText = styled(Text)`
-    font-size: 12px;
+    font-size: 14px;
     color: #999;
 `;
 

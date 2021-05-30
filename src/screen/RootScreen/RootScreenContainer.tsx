@@ -10,7 +10,8 @@ const RootScreenContainer = () => {
     const [multiple, setMultiple] = useState<number>(null);
     const [recurring, setRecurring] = useState<number>(null);
     const [multipleValue, setMultipleValue] = useState<number>(1);
-    const [price, setPrice] = useState<number>(5000);
+    const [priceIndex, setPriceIndex] = useState<number>(0); // 0: 5,000 , 1: 10,000 , 2: 15,000 , 3: 직접입력
+    const [price, setPrice] = useState<number>(null);
     const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
     const [isStoped, setIsStoped] = useState<boolean>(false);
 
@@ -34,8 +35,10 @@ const RootScreenContainer = () => {
             multipleValue={multipleValue}
             setMultipleValue={setMultipleValue}
             price={price}
-            isSubscribed={isSubscribed}
             setPrice={setPrice}
+            isSubscribed={isSubscribed}
+            priceIndex={priceIndex}
+            setPriceIndex={setPriceIndex}
             setIsSubscribed={setIsSubscribed}
             isStoped={isStoped}
             setIsStoped={setIsStoped}

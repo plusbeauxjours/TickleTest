@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 
 import ModalConfirm from './ModalConfirm';
 
 import { GrayText, Text, Container, Row } from '../styles/sharedStyles';
 import colors from '../styles/sharedColors';
+import Switch from './Switch';
 
 interface IProps {
     isStoped: boolean;
     setIsStoped: (isStoped: boolean) => void;
 }
-
-const Touchable = styled.TouchableOpacity``;
 
 const StopOption: React.FC<IProps> = ({ isStoped, setIsStoped }) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -42,9 +41,7 @@ const StopOption: React.FC<IProps> = ({ isStoped, setIsStoped }) => {
             <Container style={{ borderBottomWidth: 0 }}>
                 <Row>
                     <Text>티클 일시중지</Text>
-                    <Touchable onPress={onOpen}>
-                        <Text>테스트</Text>
-                    </Touchable>
+                    <Switch isOn={isStoped} onOpen={onOpen} />
                 </Row>
                 <GrayText>일시적으로 티클 모으기를 중지합니다.</GrayText>
             </Container>
