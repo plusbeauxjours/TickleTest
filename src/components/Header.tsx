@@ -10,10 +10,17 @@ const Container = styled.View`
     height: 40px;
     padding: 0 20px;
 `;
+
+const Image = styled.Image`
+    width: 28px;
+    height: 28px;
+`;
+
 const Header = () => {
     return (
         <Container>
             <Title>티클 옵션</Title>
+            <Image source={require('../assets/help-icon.png')} />
         </Container>
     );
 };

@@ -10,10 +10,6 @@ interface IProps {
     visible: boolean;
 }
 
-interface IStyle {
-    isConfirmModal: boolean;
-}
-
 const Background = styled.View`
     flex: 1;
     justify-content: center;
@@ -21,66 +17,65 @@ const Background = styled.View`
     background-color: rgba(0, 0, 0, 0.3);
 `;
 
+const ModalTextBox = styled.View`
+    min-height: 160px;
+    padding: 50px 15px;
+    padding-bottom: 15px;
+    align-items: center;
+    justify-content: center;
+`;
+
 const ModalBox = styled.View`
     width: 260px;
-    height: 260px;
-    border-radius: 20px;
+    border-radius: 10px;
     background-color: ${colors.whiteColor};
 `;
 
-const BtnContainer = styled.View`
-    width: 260px;
+const CloseIconContainer = styled.TouchableOpacity`
+    width: 50px;
     height: 50px;
-    flex-direction: row;
     position: absolute;
-    bottom: 0;
-`;
-
-const Touchable = styled.TouchableOpacity<IStyle>`
-    width: ${(props) => (props.isConfirmModal ? 260 : 130)}px;
-    height: 50px;
-    justify-content: center;
-    align-items: center;
+    right: 0;
+    top: 10px;
 `;
 
 const Title = styled.Text`
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 800;
-`;
-const Text = styled.Text``;
-const BtnText = styled(Title)`
-    color: ${colors.primaryColor};
+    position: absolute;
+    top: 25px;
+    text-align: center;
 `;
 
-const ModalAlert: React.FC<IProps> = ({ alertTitle, alertText, visible, isConfirmModal }) => {
+const Text = styled.Text`
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+`;
+const Icon = styled(Text)`
+    margin-top: 15px;
+    font-size: 20;
+`;
+
+const Content = styled.View`
+    margin: 15px 0;
+    align-items: center;
+    justify-content: center;
+`;
+
+const ModalAlert: React.FC<IProps> = ({ alertTitle, alertText, isModalOpen, onClose, children }) => {
     return (
-        <Modal animationType="fade" transparent visible={visible}>
+        <Modal transparent visible={isModalOpen}>
             <Background>
                 <ModalBox>
-                    <Title>{alertTitle}</Title>
-                    <Text>{alertText}</Text>
-                    {isConfirmModal ? (
-                        <BtnContainer>
-                            <Touchable
-                                style={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }}
-                                isConfirmModal={isConfirmModal}
-                                onPress={() => null}>
-                                <BtnText>확인</BtnText>
-                            </Touchable>
-                        </BtnContainer>
-                    ) : (
-                        <BtnContainer>
-                            <Touchable style={{ borderBottomLeftRadius: 20 }} onPress={() => null}>
-                                <BtnText>취소</BtnText>
-                            </Touchable>
-                            <Touchable
-                                style={{ borderBottomRightRadius: 20 }}
-                                isConfirmModal={isConfirmModal}
-                                onPress={() => null}>
-                                <BtnText>확인</BtnText>
-                            </Touchable>
-                        </BtnContainer>
-                    )}
+                    <ModalTextBox>
+                        <Title>{alertTitle}</Title>
+                        <CloseIconContainer onPress={onClose}>
+                            <Icon>✕</Icon>
+                        </CloseIconContainer>
+                        {children && <Content>{children}</Content>}
+                        <Text>{alertText}</Text>
+                    </ModalTextBox>
                 </ModalBox>
             </Background>
         </Modal>
