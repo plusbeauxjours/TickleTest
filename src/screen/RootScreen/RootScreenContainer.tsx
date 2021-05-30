@@ -16,8 +16,7 @@ const RootScreenContainer = () => {
 
     const [getOptionFn, { data: getOptionData, loading: getOptionLoading }] = useLazyQuery(GET_OPTION, {
         onError: (e) => console.log(e),
-
-        onCompleted: (res) => console.log(res),
+        onCompleted: (res) => console.log('res', res),
     });
 
     const [updateOptionFn, { data: updateOptionData, loading: updateOptionLoading }] = useMutation(UPDATE_OPTION, {
@@ -25,7 +24,7 @@ const RootScreenContainer = () => {
             multiple: MULTIPLE_ARRAY[multipleIndex],
             recurring: recurringIndex !== 3 ? recurringIndex : recurring,
         },
-        onCompleted: (res) => console.log(res),
+        onCompleted: (res) => console.log('res', res),
     });
 
     useEffect(() => {

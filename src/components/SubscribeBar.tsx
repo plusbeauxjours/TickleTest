@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 
 import { GrayText } from '../styles/sharedStyles';
 import colors from '../styles/sharedColors';
-import { RECURRING_ARRAY } from '../styles/variables';
+import { numberWithCommas, RECURRING_ARRAY } from '../styles/variables';
 
 interface IProps {
     onRecurringOpen: () => void;
@@ -26,7 +26,7 @@ const RECURRING_LAST_INDEX = RECURRING_ARRAY.length - 1;
 const THUMB_WIDTH = BAR_WIDTH / 4 - 10;
 
 const SubscribeBarContainer = styled.View`
-    height: ${BAR_HEIGHT + 20}px;
+    height: ${BAR_HEIGHT + 10}px;
 `;
 
 const BarContainer = styled.View`
@@ -88,12 +88,16 @@ const SubscribeBar: React.FC<IProps> = ({ onRecurringOpen, recurringIndex, isSub
                             {recurringIndex === index ? (
                                 <Thumb index={recurringIndex} isSubscribed={isSubscribed}>
                                     <Text isSelected={recurringIndex === index}>
-                                        {index !== RECURRING_LAST_INDEX ? `${RECURRING_ARRAY[index]}원` : '직접입력'}
+                                        {index !== RECURRING_LAST_INDEX
+                                            ? `${numberWithCommas(RECURRING_ARRAY[index])}원`
+                                            : '직접입력'}
                                     </Text>
                                 </Thumb>
                             ) : (
                                 <Text isSelected={recurringIndex === index}>
-                                    {index !== RECURRING_LAST_INDEX ? `${RECURRING_ARRAY[index]}원` : '직접입력'}
+                                    {index !== RECURRING_LAST_INDEX
+                                        ? `${numberWithCommas(RECURRING_ARRAY[index])}원`
+                                        : '직접입력'}
                                 </Text>
                             )}
                         </VerticalTextContainer>

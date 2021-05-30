@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import styled from 'styled-components/native';
 
 import ModalConfirm from './ModalConfirm';
 import Switch from './Switch';
 
 import { GrayText, Text, Container, Row } from '../styles/sharedStyles';
-import { RECURRING_ARRAY } from '../styles/variables';
-import colors from '../styles/sharedColors';
-import MultipleBar from './MultipleBar';
+import { numberWithCommas, RECURRING_ARRAY } from '../styles/variables';
 import SubscribeBar from './SubscribeBar';
+import RecurringInput from './RecurringInput';
 
 interface IProps {
     recurring: number;
@@ -18,19 +16,6 @@ interface IProps {
     isSubscribed: number;
     setIsSubscribed: (isSubscribed: boolean) => void;
 }
-
-interface IStyle {
-    isEmpty: boolean;
-}
-
-const Touchable = styled.TouchableOpacity``;
-const TextInput = styled.TextInput`
-    padding: 10px 0;
-`;
-const TextInputLine = styled.View<IStyle>`
-    height: 0.5px;
-    background-color: ${(props) => (props.isEmpty ? colors.borderColor : colors.primaryColor)};
-`;
 
 const SubscribeOption = React.memo<IProps>(
     ({ recurring, setRecurring, recurringIndex, setRecurringIndex, isSubscribed, setIsSubscribed }) => {
@@ -63,22 +48,28 @@ const SubscribeOption = React.memo<IProps>(
         const recurringText = isRecurringConfirmed
             ? '정기 티클 설정이 완료되었습니다!'
             : `이제부터 매주 ${
-                  tempIndex !== 3 ? RECURRING_ARRAY[tempIndex] : recurring
+                  tempIndex === 3 ? recurring : numberWithCommas(RECURRING_ARRAY[tempIndex])
               }원이 추가로\n저축됩니다. 계속하시겠습니까?`;
 
         const onRecurringOpen = (index: number) => {
-            if (index !== 3) {
+            if (index && index === 3) {
+                // 바에서 직접입력을 탭
+                setRecurring(null);
+                setRecurringIndex(index);
+                setTempIndex(index);
+            } else if (index && index !== 3) {
+                // 바에서 직접입력을 제외한 금액을 탭
                 setIsRecurringModalOpen(true);
-                setRecurringIndex(null);
                 setTempIndex(index); // alert에 표기를 위한 index를 set
             } else {
-                setRecurringIndex(index);
+                // 직접입력에서 확인을 탭
+                setIsRecurringModalOpen(true);
+                setRecurringIndex(tempIndex);
             }
         };
         const onRecurringCancel = () => setIsRecurringModalOpen(false);
         const onRecurringOk = () => {
             try {
-                console.log('index', tempIndex);
                 setRecurringIndex(tempIndex);
             } catch (e) {
                 console.log(e);
@@ -104,10 +95,12 @@ const SubscribeOption = React.memo<IProps>(
                         isSubscribed={isSubscribed}
                     />
                     {recurringIndex === 3 && ( // 0: 5,000 , 1: 10,000 , 2: 15,000 , 3: 직접입력
-                        <Row>
-                            <TextInput />
-                            <TextInputLine isEmpty={recurring?.length === 0} />
-                        </Row>
+                        <RecurringInput
+                            recurring={recurring}
+                            setRecurring={setRecurring}
+                            isSubscribed={isSubscribed}
+                            onRecurringOpen={onRecurringOpen}
+                        />
                     )}
                     <GrayText>모인 티클에 더해서 매주 추가 금액을 저축합니다.</GrayText>
                 </Container>
