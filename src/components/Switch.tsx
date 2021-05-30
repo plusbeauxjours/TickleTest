@@ -34,7 +34,7 @@ const Switch: React.FC<IProps> = ({ isOn, onOpen }) => {
 
     useEffect(() => {
         Animated.timing(translation, {
-            toValue: isOn ? 0 : 20,
+            toValue: isOn ? 20 : 0,
             duration: 200,
             useNativeDriver: true,
         }).start();
