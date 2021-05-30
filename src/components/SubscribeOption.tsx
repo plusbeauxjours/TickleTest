@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 import styled from 'styled-components/native';
 
 import ModalConfirm from './ModalConfirm';
-
-import { GrayText, Text, Container, Row } from '../styles/sharedStyles';
-import colors from '../styles/sharedColors';
 import Switch from './Switch';
 
+import { GrayText, Text, Container, Row } from '../styles/sharedStyles';
+import { RECURRING_ARRAY } from '../styles/variables';
+import colors from '../styles/sharedColors';
+import MultipleBar from './MultipleBar';
+import SubscribeBar from './SubscribeBar';
+
 interface IProps {
-    price: number;
-    isSubscribed: boolean;
-    setPrice: (price: number) => void;
+    recurring: number;
+    setRecurring: (recurring: number) => void;
+    recurringIndex: boolean;
+    setRecurringIndex: (recurringIndex: number) => void;
+    isSubscribed: number;
     setIsSubscribed: (isSubscribed: boolean) => void;
 }
 
@@ -28,16 +33,16 @@ const TextInputLine = styled.View<IStyle>`
 `;
 
 const SubscribeOption: React.FC<IProps> = ({
-    price,
-    setPrice,
-    priceIndex,
-    setPriceIndex,
+    recurring,
+    setRecurring,
+    recurringIndex,
+    setRecurringIndex,
     isSubscribed,
     setIsSubscribed,
 }) => {
     const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState<boolean>(false);
-    const [isPriceModalOpen, setIsPriceModalOpen] = useState<boolean>(false);
-    const [isPriceConfirmed, setIsPriceConfirmed] = useState<boolean>(true);
+    const [isRecurringModalOpen, setIsRecurringModalOpen] = useState<boolean>(false);
+    const [isRecurringConfirmed, setIsRecurringConfirmed] = useState<boolean>(true);
 
     const subscribeTitle = '정기 티클';
     const subscribeText = isSubscribed
@@ -60,24 +65,26 @@ const SubscribeOption: React.FC<IProps> = ({
         setIsSubscribeModalOpen(false);
     };
 
-    const priceTitle = '정기 티클';
-    const priceText = isPriceConfirmed
+    const recurringTitle = '정기 티클';
+    const recurringText = isRecurringConfirmed
         ? '정기 티클 설정이 완료되었습니다!'
-        : `이제부터 매주 ${price}원이 추가로\n저축됩니다. 계속하시겠습니까?`;
+        : `이제부터 매주 ${
+              recurringIndex !== 3 ? RECURRING_ARRAY[recurringIndex] : recurring
+          }원이 추가로\n저축됩니다. 계속하시겠습니까?`;
 
-    const onPriceOpen = () => setIsPriceModalOpen(true);
-    const onPriceCancel = () => setIsPriceModalOpen(false);
-    const onPriceOk = () => {
+    const onRecurringOpen = () => setIsRecurringModalOpen(true);
+    const onRecurringCancel = () => setIsRecurringModalOpen(false);
+    const onRecurringOk = () => {
         try {
         } catch (e) {
             console.log(e);
         } finally {
-            setIsPriceConfirmed(!isPriceConfirmed);
+            setIsRecurringConfirmed(!isRecurringConfirmed);
         }
     };
-    const onPriceClose = () => {
-        setIsPriceConfirmed(!isPriceConfirmed);
-        setIsPriceModalOpen(false);
+    const onRecurringClose = () => {
+        setIsRecurringConfirmed(!isRecurringConfirmed);
+        setIsRecurringModalOpen(false);
     };
 
     return (
@@ -86,14 +93,12 @@ const SubscribeOption: React.FC<IProps> = ({
                 <Row>
                     <Text>정기 티클</Text>
                     <Switch isOn={isSubscribed} onOpen={onSubscribeOpen} />
-                    <Touchable onPress={onPriceOpen}>
-                        <Text>price 테스트</Text>
-                    </Touchable>
                 </Row>
-                {priceIndex === 3 && ( // 3: 집적입력
+                <SubscribeBar onConfirmOpen={onRecurringOpen} recurringIndex={recurringIndex} />
+                {recurringIndex === 3 && ( // 0: 5,000 , 1: 10,000 , 2: 15,000 , 3: 직접입력
                     <Row>
                         <TextInput />
-                        <TextInputLine isEmpty={!price} />
+                        <TextInputLine isEmpty={recurring?.length === 0} />
                     </Row>
                 )}
                 <GrayText>모인 티클에 더해서 매주 추가 금액을 저축합니다.</GrayText>
@@ -108,13 +113,13 @@ const SubscribeOption: React.FC<IProps> = ({
                 hasCancelBtn={!isSubscribed}
             />
             <ModalConfirm
-                alertTitle={priceTitle}
-                alertText={priceText}
-                isModalOpen={isPriceModalOpen}
-                onCancel={onPriceCancel}
-                onOk={onPriceOk}
-                onClose={onPriceClose}
-                hasCancelBtn={!isPriceConfirmed}
+                alertTitle={recurringTitle}
+                alertText={recurringText}
+                isModalOpen={isRecurringModalOpen}
+                onCancel={onRecurringCancel}
+                onOk={onRecurringOk}
+                onClose={onRecurringClose}
+                hasCancelBtn={!isRecurringConfirmed}
             />
         </React.Fragment>
     );

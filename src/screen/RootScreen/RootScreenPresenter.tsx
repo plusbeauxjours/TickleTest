@@ -9,9 +9,11 @@ import StopOption from '../../components/StopOption';
 interface IProps {
     multipleIndex: number;
     setMultipleIndex: (multipleIndex: number) => void;
-    price: number;
-    isSubscribed: boolean;
-    setPrice: (price: number) => void;
+    recurring: number;
+    setRecurring: (recurring: number) => void;
+    recurringIndex: boolean;
+    setRecurringIndex: (recurringIndex: number) => void;
+    isSubscribed: number;
     setIsSubscribed: (isSubscribed: boolean) => void;
     isStoped: boolean;
     setIsStoped: (isStoped: boolean) => void;
@@ -21,9 +23,11 @@ const SafeAreaView = styled.SafeAreaView``;
 const RootScreenPresenter: React.FC<IProps> = ({
     multipleIndex,
     setMultipleIndex,
-    price,
+    recurring,
+    setRecurring,
+    recurringIndex,
+    setRecurringIndex,
     isSubscribed,
-    setPrice,
     setIsSubscribed,
     isStoped,
     setIsStoped,
@@ -34,9 +38,11 @@ const RootScreenPresenter: React.FC<IProps> = ({
                 <Header />
                 <MultipleOption multipleIndex={multipleIndex} setMultipleIndex={setMultipleIndex} />
                 <SubscribeOption
-                    price={price}
+                    recurring={recurring}
+                    setRecurring={setRecurring}
+                    recurringIndex={recurringIndex}
+                    setRecurringIndex={setRecurringIndex}
                     isSubscribed={isSubscribed}
-                    setPrice={setPrice}
                     setIsSubscribed={setIsSubscribed}
                 />
                 <StopOption isStoped={isStoped} setIsStoped={setIsStoped} />

@@ -17,15 +17,15 @@ interface IStyle {
 
 const { width } = Dimensions.get('screen');
 
-const DEFAULT_PADDING = 20;
-const BAR_PADDING = DEFAULT_PADDING + 10;
+const DEFAULT_PADDING = 20; // 스크린에서 사용하는 padding
+const BAR_PADDING = DEFAULT_PADDING + 10; // bar는 스크린에서 사용하는 width보다 짧음
 const VERTICAL_LINE_HEIGHT = 12;
 const THUMB_SIZE = VERTICAL_LINE_HEIGHT * 2.5;
 const BAR_WIDTH = width - BAR_PADDING * 2;
 const MULTIPLE_ARRAY_LENGTH = MULTIPLE_ARRAY.length - 1;
 
 const MultipleBarContainer = styled.View`
-    margin-top: 20px;
+    margin-top: 15px;
     height: 60px;
 `;
 
@@ -35,13 +35,13 @@ const HorizontalLine = styled.View`
     width: ${BAR_WIDTH}px;
     top: ${VERTICAL_LINE_HEIGHT / 2}px;
     height: 1px;
-    background-color: ${colors.grayColor};
+    background-color: ${colors.trackColor};
 `;
 
 const VerticalLine = styled.View`
     width: 1px;
     height: ${VERTICAL_LINE_HEIGHT}px;
-    background-color: ${colors.grayColor};
+    background-color: ${colors.trackColor};
 `;
 
 const BarContainer = styled.View`
@@ -52,7 +52,7 @@ const BarContainer = styled.View`
 `;
 
 const VerticalText = styled(GrayText)<IStyle>`
-    margin-top: 20px;
+    margin-top: 10px;
     text-align: center;
     width: 40px;
 `;

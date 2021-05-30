@@ -54,7 +54,7 @@ const Text = styled.Text`
 `;
 const Icon = styled(Text)`
     margin-top: 15px;
-    font-size: 20;
+    font-size: 20px;
 `;
 
 const Content = styled.View`

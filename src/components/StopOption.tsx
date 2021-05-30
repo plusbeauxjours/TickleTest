@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components/native';
+import React, { useState } from 'react';
 
 import ModalConfirm from './ModalConfirm';
+import Switch from './Switch';
 
 import { GrayText, Text, Container, Row } from '../styles/sharedStyles';
-import colors from '../styles/sharedColors';
-import Switch from './Switch';
 
 interface IProps {
     isStoped: boolean;

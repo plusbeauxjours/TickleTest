@@ -9,9 +9,8 @@ import { MULTIPLE_ARRAY } from '../../styles/variables';
 
 const RootScreenContainer = () => {
     const [multipleIndex, setMultipleIndex] = useState<number>(0);
-    const [recurring, setRecurring] = useState<number>(null);
-    const [price, setPrice] = useState<number>(null);
-    const [priceIndex, setPriceIndex] = useState<number>(0); // 0: 5,000 , 1: 10,000 , 2: 15,000 , 3: 직접입력
+    const [recurringIndex, setRecurringIndex] = useState<number>(0); // 0: 5,000 , 1: 10,000 , 2: 15,000 , 3: 직접입력
+    const [recurring, setRecurring] = useState<number>(null); // 직접입력
     const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
     const [isStoped, setIsStoped] = useState<boolean>(false);
 
@@ -34,11 +33,11 @@ const RootScreenContainer = () => {
         <RootScreenPresenter
             multipleIndex={multipleIndex}
             setMultipleIndex={setMultipleIndex}
-            price={price}
-            setPrice={setPrice}
+            recurring={recurring}
+            setRecurring={setRecurring}
+            recurringIndex={recurringIndex}
+            setRecurringIndex={setRecurringIndex}
             isSubscribed={isSubscribed}
-            priceIndex={priceIndex}
-            setPriceIndex={setPriceIndex}
             setIsSubscribed={setIsSubscribed}
             isStoped={isStoped}
             setIsStoped={setIsStoped}

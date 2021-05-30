@@ -3,12 +3,12 @@ import styled from 'styled-components/native';
 
 import InformationBtn from './InformationBtn';
 import ModalConfirm from './ModalConfirm';
+import ModalAlert from './ModalAlert';
+import MultipleBar from './MultipleBar';
 
 import { GrayText, Text, Container, Row } from '../styles/sharedStyles';
 import { MULTIPLE_ARRAY } from '../styles/variables';
 import colors from '../styles/sharedColors';
-import ModalAlert from './ModalAlert';
-import MultipleBar from './MultipleBar';
 
 interface IProps {
     multipleIndex: number;
@@ -38,17 +38,19 @@ const PrimaryColorText = styled(Bold)`
 const MultipleOption: React.FC<IProps> = ({ multipleIndex, setMultipleIndex }) => {
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
     const [isAlertModalOpen, setIsAlertModalOpen] = useState<boolean>(false);
+    const [tempIndex, setTempIndex] = useState<number>(0); // alert에 표기를 위한 index
 
     const confirmTitle = '티클 곱하기';
-    const confirmText = `이제부터 티클이 ${MULTIPLE_ARRAY[multipleIndex]}배씩 모입니다.\n빠르게 티클을 모아보세요!`;
+    const confirmText = `이제부터 티클이 ${MULTIPLE_ARRAY[tempIndex]}배씩 모입니다.\n빠르게 티클을 모아보세요!`;
 
     const onConfirmOpen = (index: number) => {
         setIsConfirmModalOpen(true);
-        setMultipleIndex(index);
+        setTempIndex(index); // alert에 표기를 위한 index를 set
     };
     const onConfirmCancel = () => setIsConfirmModalOpen(false);
     const onConfirmOk = () => {
         try {
+            setMultipleIndex(tempIndex); // mutation으로 보낼 index
         } catch (e) {
             console.log(e);
         } finally {
