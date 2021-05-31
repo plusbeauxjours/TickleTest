@@ -1,24 +1,36 @@
 import React, { useState } from 'react';
+import { MutationFunction } from '@apollo/client';
 
 import ModalConfirm from './ModalConfirm';
 import Switch from './Switch';
 
 import { GrayText, Text, Container, Row } from '../styles/sharedStyles';
-import { numberWithCommas, RECURRING_ARRAY } from '../styles/variables';
+import { MULTIPLE_ARRAY, numberWithCommas, RECURRING_ARRAY } from '../styles/variables';
 import SubscribeBar from './SubscribeBar';
 import RecurringInput from './RecurringInput';
 
 interface IProps {
+    multipleIndex: number;
     recurring: number;
     setRecurring: (recurring: number) => void;
     recurringIndex: boolean;
     setRecurringIndex: (recurringIndex: number) => void;
     isSubscribed: number;
     setIsSubscribed: (isSubscribed: boolean) => void;
+    updateOption: ({ multipleIndexProps, recurringIndexProps }) => void;
 }
 
 const SubscribeOption = React.memo<IProps>(
-    ({ recurring, setRecurring, recurringIndex, setRecurringIndex, isSubscribed, setIsSubscribed }) => {
+    ({
+        multipleIndex,
+        recurring,
+        setRecurring,
+        recurringIndex,
+        setRecurringIndex,
+        isSubscribed,
+        setIsSubscribed,
+        updateOption,
+    }) => {
         const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState<boolean>(false); // subscribe switch 확인을 위한 modal
         const [isRecurringModalOpen, setIsRecurringModalOpen] = useState<boolean>(false); // subscribe 금액 확인을 위한 modal
         const [isRecurringConfirmed, setIsRecurringConfirmed] = useState<boolean>(false);
@@ -31,8 +43,10 @@ const SubscribeOption = React.memo<IProps>(
         const onSubscribeOpen = () => setIsSubscribeModalOpen(true);
         const onSubscribeCancel = () => setIsSubscribeModalOpen(false);
         const onSubscribeOk = () => {
+            // alert의 취소/확인버튼
             try {
                 setIsSubscribed(true);
+                updateOption({ recurringIndexProps: tempIndex });
             } catch (e) {
                 console.log(e);
             } finally {
@@ -40,8 +54,16 @@ const SubscribeOption = React.memo<IProps>(
             }
         };
         const onSubscribeClose = () => {
-            setIsSubscribed(false);
-            setIsSubscribeModalOpen(false);
+            //  alert의 확인버튼
+            try {
+                setIsSubscribed(true);
+                updateOption({ recurringIndexProps: tempIndex });
+            } catch (e) {
+                console.log(e);
+            } finally {
+                setIsSubscribed(false);
+                setIsSubscribeModalOpen(false);
+            }
         };
 
         const recurringTitle = '정기 티클';
@@ -52,25 +74,28 @@ const SubscribeOption = React.memo<IProps>(
               }원이 추가로\n저축됩니다. 계속하시겠습니까?`;
 
         const onRecurringOpen = (index: number) => {
-            if (index && index === 3) {
+            if (!index && index !== 0) {
+                console.log('[][]', index);
+                // 직접입력에서 확인을 탭
+                setIsRecurringModalOpen(true);
+                setRecurringIndex(index);
+            } else if (index === 3) {
                 // 바에서 직접입력을 탭
                 setRecurring(null);
-                setRecurringIndex(index);
-                setTempIndex(index);
-            } else if (index && index !== 3) {
+                setRecurringIndex(3);
+                setTempIndex(3);
+            } else {
                 // 바에서 직접입력을 제외한 금액을 탭
                 setIsRecurringModalOpen(true);
                 setTempIndex(index); // alert에 표기를 위한 index를 set
-            } else {
-                // 직접입력에서 확인을 탭
-                setIsRecurringModalOpen(true);
-                setRecurringIndex(tempIndex);
             }
         };
         const onRecurringCancel = () => setIsRecurringModalOpen(false);
         const onRecurringOk = () => {
+            // alert의 취소/확인버튼
             try {
                 setRecurringIndex(tempIndex);
+                updateOption({ recurringIndexProps: tempIndex });
             } catch (e) {
                 console.log(e);
             } finally {
@@ -78,6 +103,7 @@ const SubscribeOption = React.memo<IProps>(
             }
         };
         const onRecurringClose = () => {
+            //  alert의 확인버튼
             setIsRecurringConfirmed(!isRecurringConfirmed);
             setIsRecurringModalOpen(false);
         };

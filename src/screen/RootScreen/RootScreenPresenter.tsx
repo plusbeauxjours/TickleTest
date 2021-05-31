@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { MutationFunction } from '@apollo/client';
 
 import Header from '../../components/Header';
 import MultipleOption from '../../components/MultipleOption';
@@ -17,6 +18,7 @@ interface IProps {
     setIsSubscribed: (isSubscribed: boolean) => void;
     isStoped: boolean;
     setIsStoped: (isStoped: boolean) => void;
+    updateOption: ({ multipleIndexProps, recurringIndexProps }) => void;
 }
 
 const SafeAreaView = styled.SafeAreaView``;
@@ -31,19 +33,29 @@ const RootScreenPresenter: React.FC<IProps> = ({
     setIsSubscribed,
     isStoped,
     setIsStoped,
+    updateOption,
 }) => {
     return (
         <React.Fragment>
             <SafeAreaView>
                 <Header />
-                <MultipleOption multipleIndex={multipleIndex} setMultipleIndex={setMultipleIndex} />
+                <MultipleOption
+                    multipleIndex={multipleIndex}
+                    setMultipleIndex={setMultipleIndex}
+                    updateOption={updateOption}
+                    isSubscribed={isSubscribed}
+                    recurring={recurring}
+                    recurringIndex={recurringIndex}
+                />
                 <SubscribeOption
+                    multipleIndex={multipleIndex}
                     recurring={recurring}
                     setRecurring={setRecurring}
                     recurringIndex={recurringIndex}
                     setRecurringIndex={setRecurringIndex}
                     isSubscribed={isSubscribed}
                     setIsSubscribed={setIsSubscribed}
+                    updateOption={updateOption}
                 />
                 <StopOption isStoped={isStoped} setIsStoped={setIsStoped} />
             </SafeAreaView>

@@ -65,13 +65,13 @@ const RecurringInput: React.FC<IProps> = ({ recurring, setRecurring, isSubscribe
             <Column>
                 <TextInput
                     disabled={!isSubscribed}
-                    onChangeText={(text) => setRecurring(text)}
+                    onChangeText={(text) => isSubscribed && setRecurring(text)}
                     value={numberWithCommas(recurring)}
                     keyboardType={'number-pad'}
                     autoCapitalize="none"
                     autoCorrect={false}
                 />
-                <TextInputLine isEmpty={!recurring} />
+                <TextInputLine isEmpty={!recurring || !isSubscribed} />
             </Column>
             <Button
                 disabled={!isSubscribed || !recurring}
