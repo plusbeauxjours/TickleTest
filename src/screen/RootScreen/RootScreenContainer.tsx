@@ -20,7 +20,6 @@ const RootScreenContainer = () => {
             console.log(res);
             setMultipleIndex(MULTIPLE_ARRAY.indexOf(res?.option.multiple));
             const tempRecurringIndex = RECURRING_ARRAY.indexOf(res?.option.recurring);
-            console.log(tempRecurringIndex);
             if (tempRecurringIndex === -1) {
                 // 정기 티클 5,000원, 10,000원, 15,000원를 사용하지 않고, 직접 입력 사용중
                 setRecurringIndex(3);
@@ -35,19 +34,14 @@ const RootScreenContainer = () => {
 
     const [updateOptionFn, { data: updateOptionData, loading: updateOptionLoading }] = useMutation(UPDATE_OPTION, {
         onError: (e) => console.log(e),
-        onCompleted: (res) => {
-            console.log('updateOptionData res', res);
-        },
+        onCompleted: (res) => console.log(res),
     });
 
     const updateOption = ({ multipleIndexProps = null, recurringIndexProps = null }) => {
         updateOptionFn({
             variables: {
                 multiple: MULTIPLE_ARRAY[multipleIndexProps] ?? MULTIPLE_ARRAY[multipleIndex],
-                recurring:
-                    recurringIndexProps === 3 || recurringIndex === 3
-                        ? +recurring
-                        : RECURRING_ARRAY[recurringIndexProps] ?? RECURRING_ARRAY[recurringIndex],
+                recurring: recurringIndexProps === 3 ? +recurring : RECURRING_ARRAY[recurringIndexProps],
             },
         });
     };

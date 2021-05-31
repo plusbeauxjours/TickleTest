@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { MutationFunction } from '@apollo/client';
 
 import Header from '../../components/Header';
 import MultipleOption from '../../components/MultipleOption';
@@ -43,12 +42,8 @@ const RootScreenPresenter: React.FC<IProps> = ({
                     multipleIndex={multipleIndex}
                     setMultipleIndex={setMultipleIndex}
                     updateOption={updateOption}
-                    isSubscribed={isSubscribed}
-                    recurring={recurring}
-                    recurringIndex={recurringIndex}
                 />
                 <SubscribeOption
-                    multipleIndex={multipleIndex}
                     recurring={recurring}
                     setRecurring={setRecurring}
                     recurringIndex={recurringIndex}
